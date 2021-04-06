@@ -9,8 +9,7 @@ footer  {
 
 .newnews {
     display: grid;
-    grid-template-columns: auto, auto, auto ;
-    /* repeat(auto-fit, minmax(280px, 1fr)); */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     grid-gap: 20px;
     margin: 15px;
     background-color: rgb(180, 204, 196);
@@ -34,9 +33,3 @@ footer  {
     background-color: white;
     box-shadow: 3px 3px  #949292;
 }
-
-/* .card-img-top{
-    width:550px;
-    /* height:500px; */
-    padding:5px;
-} */
