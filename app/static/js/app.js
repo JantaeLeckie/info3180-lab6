@@ -51,4 +51,39 @@ app.component('app-footer', {
   }
 })
 
+app.component('news-list', {
+  name: 'newslist',
+  template: `
+      <div class="news">
+        <h2>News</h2>
+        <ul class="news__list">
+          <li v-for="article in articles" class="news__item">
+            <h5 class="card-title">{{ article.title }}</h5>
+            <img class="card-img-top" :src= article.urlToImage alt="Card image cap">
+            <p class="card-text">{{ article.description }}</p>
+          </li>
+        </ul>
+      </div>
+  `,created() {
+      let self = this;
+      fetch('https://newsapi.org/v2/top-headlines?country=us',
+      {
+        headers: {
+        'Authorization': 'Bearer b3a94ea226ed4589945b11d85d8c6fae'
+        }
+      })
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(data) {
+        console.log(data);
+        self.articles = data.articles;
+        });
+    },data() {
+      return { articles: [] }
+    }
+   });
+  
+
+   
 app.mount('#app');
