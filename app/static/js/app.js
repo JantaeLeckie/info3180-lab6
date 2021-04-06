@@ -56,13 +56,26 @@ app.component('news-list', {
   template: `
       <div class="news">
         <h2>News</h2>
-        <ul class="news__list">
-          <li v-for="article in articles" class="news__item">
-            <h5 class="card-title">{{ article.title }}</h5>
-            <img class="card-img-top" :src= article.urlToImage alt="Card image cap">
-            <p class="card-text">{{ article.description }}</p>
-          </li>
-        </ul>
+        <div class="form-inline d-flex justify-content-center">
+            <div class="form-group mx-sm-3 mb-2">
+              
+              <label class="sr-only" for="search">Search</label>
+              <input type="search" name="search" v-model="searchTerm"
+              id="search" class="form-control mb-2 mr-sm-2" placeholder="Enter search term here" />
+              
+              <button class="btn btn-primary mb-2"
+              @click="searchNews">Search</button>
+            </div>
+        </div>
+        <div class="newnews">
+          <ul class="news__list">
+            <li v-for="article in articles" class="news__item">
+              <h5 class="card-title">{{ article.title }}</h5>
+              <img class="card-img-top" :src= article.urlToImage alt="Card image cap">
+              <p class="card-text">{{ article.description }}</p>
+            </li>
+          </ul>
+        </div>
       </div>
   `,created() {
       let self = this;
@@ -80,8 +93,26 @@ app.component('news-list', {
         self.articles = data.articles;
         });
     },data() {
-      return { articles: [] }
-    }
+      return { articles: [], searchTerm: '' }
+    }, 
+    methods: {
+      searchNews() {
+      let self = this;
+      fetch('https://newsapi.org/v2/everything?q='+
+     self.searchTerm + '&language=en', {
+      headers: {
+      'Authorization': 'Bearer b3a94ea226ed4589945b11d85d8c6fae'
+      }
+     })
+      .then(function(response) {
+      return response.json();
+      })
+      .then(function(data) {
+      console.log(data);
+      self.articles = data.articles;
+      });
+      }
+      }
    });
   
 
